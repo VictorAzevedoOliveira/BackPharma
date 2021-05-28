@@ -1,0 +1,13 @@
+{
+    "env":{
+        "MYSQL_USER":"root",
+        "MYSQL_PASSWORD":"root",
+        "MYSQL_DATABASE":"db_pharmaoff",
+        "MYSQL_HOST":"localhost",
+        "MYSQL_PORT":3306,
+        "JWT_KEY":"segredo",
+        "JWT_TOKEN": "super-hyper-json-web-token-secret",
+        "JWT_EXPIRES_IN":"90d",
+        "JWT_COOKIE_EXPIRES_IN":90
+    }
+}
