@@ -13,7 +13,7 @@ const bd = require('../bd');
   };
 
   exports.getUser = async req => {
-    const { rows: user } = await server.query(
+    const { rows: user } = await mysql.query(
       `SELECT * FROM tb_pessoa 
        WHERE id_pessoa = ?;`,
       [req.params.id]
@@ -36,7 +36,7 @@ const bd = require('../bd');
     const senha = await bcrypt.hash(req.body.pwd_pessoa, 12);
   
     // Inserir usuário.
-    const { rows: createdUser } = await server.query(
+    const { rows: createdUser } = await mysql.query(
         `INSERT INTO tb_pessoa (nme_pessoa, email_pessoa,pwd_pessoa) VALUES (?,?,?)`,
       [
         req.body.nme_pessoa,
