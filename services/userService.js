@@ -1,13 +1,13 @@
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 const server = require('../server');
-//const mysql = require('./mysql2').pool;
+const mysql = require('../mysql').pool;
 const AppError = require('../utils/AppError');
 const bd = require('../bd');
 
 
   exports.gelAllUsers = async () => {
-    const { rows: users } = await bd.query('SELECT * FROM tb_pessoa');
+    const { rows: users } = await mysql.query('SELECT * FROM tb_pessoa');
   
     return users;
   };
