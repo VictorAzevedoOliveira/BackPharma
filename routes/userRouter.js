@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken');
 const userController = require('../controllers/userController');
 const authController = require('../controllers/authController');
 
+router.route('/usuarios').get(userController.getAllUsers);
 
 router.route('/').get(userController.getAllUsers).post(userController.addUser);
 router
