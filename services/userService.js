@@ -1,27 +1,24 @@
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 const server = require('../server');
-const mysql = require('../mysql').pool;
+//const bd = require('../bd').pool;
 const AppError = require('../utils/AppError');
 const bd = require('../bd');
+const { token } = require('morgan');
 
 
 exports.getAllUsers = async () => {
-  mysql.getConnection(async(error,conn) => {
-    await conn.query('SELECT * FROM tb_pessoa', function(err,res,fields) {
-      const {rows:users} = res;
-      console.log(err+" "+res[0].value+" "+fields);
-      conn.release();
-      return users;
-    });
+  const { rows: users } = await bd.query('SELECT * FROM tb_usuario');
+
+  return users;
     },  
     
-    )}   
+  
 
   exports.getUser = async req => {
-    const { rows: user } = await mysql.query(
-      `SELECT * FROM tb_pessoa 
-       WHERE id_pessoa = ?;`,
+    const { rows: user } = await bd.query(
+      `SELECT * FROM tb_usuario 
+       WHERE id_usuario = $1;`,
       [req.params.id]
     );
     if (!user[0]) throw new AppError('Usuário não existe.', 404);
@@ -35,28 +32,32 @@ exports.getAllUsers = async () => {
 
   exports.addUser = async req => {
     // Verificar se senha e confirmação de senha são iguais.
-    if (req.body.pwd_pessoa !== req.body.confirmSenha)
+    if (req.body.pwd_usuario !== req.body.confirmSenha)
       throw new AppError('As senhas precisam ser iguais.', 400);
   
     // Gerar hash de senha.
-    const senha = await bcrypt.hash(req.body.pwd_pessoa, 12);
+    const senha = await bcrypt.hash(req.body.pwd_usuario, 12);
   
     // Inserir usuário.
-    const { rows: createdUser } = await mysql.query(
-        `INSERT INTO tb_pessoa (nme_pessoa, email_pessoa,pwd_pessoa) VALUES (?,?,?)`,
-      [
-        req.body.nme_pessoa,
-        req.body.email_pessoa,
-        senha
+    
+    const { rows:createdUser } = await bd.query(
+        `INSERT INTO tb_usuario (nme_usuario, email_usuario,pwd_usuario) VALUES ($1, $2, $3) RETURNING id_usuario;`,
+
+        [createdUser[0].id_usuario,
+        req.body.nme_usuario, 
+        req.body.email_usuario,
+        senha,
       ]
+      
     );
+   
   };
 
 
   exports.deleteUser = async req => {
     const {
       rowCount,
-    } = await server.query(`DELETE FROM tb_pessoa WHERE id_pessoa = ?`, [
+    } = await server.query(`DELETE FROM tb_usuario WHERE id_usuario = $1`, [
       req.params.id,
     ]);
   
@@ -70,6 +71,6 @@ exports.getAllUsers = async () => {
   
     const filteredUser = filterObj(
       req.body,
-      'nme_pessoa',
+      'nme_usuario',
     );
 };
