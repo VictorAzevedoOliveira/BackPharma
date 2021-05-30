@@ -10,7 +10,8 @@ exports.getAllUsers = async () => {
   mysql.getConnection(async(error,conn) => {
     await conn.query('SELECT * FROM tb_pessoa', function(err,res,fields) {
       const {rows:users} = res;
-      console.log(err+" "+res[0].value+" "+fields);
+      // console.log(err+" "+res[0].value+" "+fields);
+      console.log(res)
       conn.release();
       return users;
     });
