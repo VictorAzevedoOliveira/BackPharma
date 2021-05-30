@@ -8,10 +8,11 @@ const { token } = require('morgan');
 
 
 exports.getAllUsers = async () => {
+
   const { rows: users } = await bd.query('SELECT * FROM tb_usuario');
 
   return users;
-    },  
+}
     
   
 
