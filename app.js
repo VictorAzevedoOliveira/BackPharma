@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
 const morgan = require('morgan');
-
 const cookieParser = require('cookie-parser');
 const path = require('path');
 const userRouter = require('./routes/userRouter');
@@ -16,9 +15,9 @@ app.use(express.static(__dirname));
 //    res.sendFile(path.join(__dirname, '../frontend/app_front/lib/main.dart'));
 //  });
 
-
+// ROTAS
 const rotaProdutos = require('./routes/produtos');
-const rotaUsuarios = require('./routes/userRouter');
+
 const rotaDesejos = require('./routes/listadesejos');
 const rotaCupons = require('./routes/cupons');
 const bodyParser = require('body-parser');
@@ -53,21 +52,6 @@ app.all('*', (req, res, next) =>
   next(new AppError(`A rota ${req.originalUrl} não existe!`))
 );
 
-//Se a rota não for encontrada
-app.use((req,res,next) =>{
-    const erro = new Error('Não Encontrado');
-    erro.status= 404;
-    next(erro);
-});
-
-app.use((error,req,res,next) =>{
-    res.status(error.status || 500);
-    return res.send({
-        erro:{
-            mensagem: error.message
-        }
-    });
-});
 app.use(globalErrorHandler);
 
 module.exports = app;

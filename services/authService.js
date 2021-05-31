@@ -5,6 +5,7 @@ const { promisify } = require('util');
 const AppError = require('../utils/AppError');
 const server = require('../server');
 const sendEmail = require('../utils/email');
+const bd = require('../bd');
 
 
 const signToken = userId =>
@@ -48,7 +49,7 @@ const createSendToken = (userId, res) => {
     const decoded = await promisify(jwt.verify)(token, process.env.JWT_TOKEN);
     const {
       rows: user,
-    } = await server.query(`SELECT * FROM tb_pessoa WHERE id_pessoa = ?`, [
+    } = await bd.query(`SELECT * FROM tb_usuario WHERE id_usuario = $1`, [
       decoded.userId,
     ]);
     if (!user[0]) {
@@ -61,40 +62,38 @@ const createSendToken = (userId, res) => {
   exports.signup = async (req, res) => {
 
     // Verificar se senha e confirmação de senha são iguais.
-    if (req.body.pwd_pessoa !== req.body.passwordConfirm)
+    if (req.body.pwd_usuario !== req.body.passwordConfirm)
       throw new AppError('As senhas precisam ser iguais.', 400);
   
     // Gerar hash de senha.
-    const senha = await bcrypt.hash(req.body.pwd_pessoa, 12);
+    const senha = await bcrypt.hash(req.body.pwd_usuario, 12);
   
     // Inserir usuário.
-    const { rows: createdUser } = await server.query(
-        `INSERT INTO tb_pessoa (nme_pessoa, email_pessoa,pwd_pessoa) VALUES (?,?,?)`,
+    const { rows: createdUser } = await bd.query(
+        `INSERT INTO tb_usuario (nme_usuario, email_usuario,pwd_usuario) VALUES ($1, $2, $3);`,
       [
-        req.body.nme_pessoa,
-        req.body.email_pessoa,
+        req.body.nme_usuario,
+        req.body.email_usuario,
         senha,
       ]
     );
   
-    return createSendToken(createdUser[0].id_pessoa, res);
+    return createSendToken(createdUser[0].id_usuario, res);
   };
   
 // LOGIN
   exports.login = async (req, res) => {
     const { email, senha } = req.body;
-    if (!email || !senha) {
-      throw new AppError('Por favor, digite seu email e sua senha.', 400);
-    } 
-    const {
-      rows: user,
-    } = await server.query(
-      `SELECT id_pessoa, email_pessoa, pwd_pessoa FROM tb_pessoa WHERE pwd_pessoa = ?`,
+    // if (!email || !senha) {
+    //   throw new AppError('Por favor, digite seu email e sua senha.', 400);
+    // } 
+    const {rows: user} = await bd.query(
+      `SELECT id_usuario, email_usuario, pwd_usuario FROM tb_usuario WHERE pwd_usuario = $1;`,
       [email]
     );
-    if (!user[0] || !(await comparePassword(senha, user[0].pwd_pessoa)))
+    if (!user[0] || !(await comparePassword(senha, user[0].pwd_usuario)))
       throw new AppError('Email ou senha incorreta.', 401);
-    return createSendToken(user[0].id_pessoa, res);
+    return createSendToken(user[0].id_usuario, res);
   };
   
 
@@ -106,8 +105,8 @@ const createSendToken = (userId, res) => {
   
     const {
       rows: user,
-    } = await server.query(
-      `SELECT id_pessoa, email_pessoa, pwd_senha FROM tb_pessoa WHERE email_pessoa = ?`,
+    } = await bd.query(
+      `SELECT id_usuario, email_usuario, pwd_senha FROM tb_usuario WHERE email_usuario = $1;`,
       [email]
     );
     if (!user[0]) throw new AppError('Não existe uma conta com este email!', 404);
@@ -124,9 +123,9 @@ const createSendToken = (userId, res) => {
   
     const passwordResetExpires = Date.now() + 15 * 60 * 1000;
   
-    await server.query(
-      'INSERT INTO senhatokenreset (id_token, nme_token, expira_token) VALUES (?,?,?)',
-      [user[0].id_pessoa, encryptResetToken, passwordResetExpires]
+    await bd.query(
+      'INSERT INTO senhatokenreset (id_token, nme_token, expira_token) VALUES ($1,$2,$3);',
+      [user[0].id_usuario, encryptResetToken, passwordResetExpires]
     );
   
     // Mandar email.
@@ -138,14 +137,14 @@ const createSendToken = (userId, res) => {
   
     try {
       sendEmail({
-        email: user[0].pwd_pessoa,
+        email: user[0].pwd_usuario,
         subject: 'Token de recuperação de senha (válido por 15 min).',
         message: message,
       });
     } catch (err) {
-      await server.query(
-        'DELETE FROM senhatokenreset WHERE id_token = ?',
-        user[0].id_pessoa
+      await bd.query(
+        'DELETE FROM senhatokenreset WHERE id_token = $1;',
+        user[0].id_usuario
       );
     }
   };
@@ -160,8 +159,8 @@ const createSendToken = (userId, res) => {
   
     const {
       rows: user,
-    } = await server.query(
-      'SELECT id_token, expira_token FROM senhatokenreset WHERE nme_token = ?',
+    } = await bd.query(
+      'SELECT id_token, expira_token FROM senhatokenreset WHERE nme_token = $1;',
       [hashedToken]
     );
   
@@ -178,12 +177,12 @@ const createSendToken = (userId, res) => {
     // Gerar hash de senha.
     const hashedPassword = await bcrypt.hash(senha, 12);
   
-    await server.query(
-      'UPDATE tb_pessoa SET pwd_pessoa = ?, pwd_changed = ? WHERE id_pessoa = ?',
+    await bd.query(
+      'UPDATE tb_usuario SET pwd_usuario = $1, pwd_changed = $2 WHERE id_usuario = $3;',
       [hashedPassword, Date.now(), user[0].id_token]
     );
   
-    await server.query('DELETE FROM senhatokenreset WHERE id_token = ?', [
+    await bd.query('DELETE FROM senhatokenreset WHERE id_token = $1;', [
       user[0].id_token,
     ]);
   

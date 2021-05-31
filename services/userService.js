@@ -8,9 +8,7 @@ const { token } = require('morgan');
 
 
 exports.getAllUsers = async () => {
-
   const { rows: users } = await bd.query('SELECT * FROM tb_usuario');
-
   return users;
 }
     
@@ -33,8 +31,8 @@ exports.getAllUsers = async () => {
 
   exports.addUser = async req => {
     // Verificar se senha e confirmação de senha são iguais.
-    if (req.body.pwd_usuario !== req.body.confirmSenha)
-      throw new AppError('As senhas precisam ser iguais.', 400);
+    //  if (req.body.pwd_usuario !== req.body.confirmSenha)
+    //    throw new AppError('As senhas precisam ser iguais.', 400);
   
     // Gerar hash de senha.
     const senha = await bcrypt.hash(req.body.pwd_usuario, 12);
@@ -44,7 +42,7 @@ exports.getAllUsers = async () => {
     const { rows:createdUser } = await bd.query(
         `INSERT INTO tb_usuario (nme_usuario, email_usuario,pwd_usuario) VALUES ($1, $2, $3) RETURNING id_usuario;`,
 
-        [createdUser[0].id_usuario,
+        [
         req.body.nme_usuario, 
         req.body.email_usuario,
         senha,
