@@ -62,8 +62,8 @@ const createSendToken = (userId, res) => {
   exports.signup = async (req, res) => {
 
     // Verificar se senha e confirmação de senha são iguais.
-      if (req.body.pwd_usuario !== req.body.passwordConfirm)
-        throw new AppError('As senhas precisam ser iguais.', 400);
+      // if (req.body.pwd_usuario !== req.body.passwordConfirm)
+      //   throw new AppError('As senhas precisam ser iguais.', 400);
   
     // Gerar hash de senha.
     const senha = await bcrypt.hash(req.body.pwd_usuario, 12);
@@ -101,14 +101,12 @@ exports.login = async (req, res) => {
 
   // ESQUECEU A SENHA
   exports.forgotPassword = async req => {
-    const { email } = req.body;
+    const  email  = req.body.email_usuario;
   
     if (!email) throw new AppError('Por favor, digite seu email.', 400);
   
-    const {
-      rows: user,
-    } = await bd.query(
-      `SELECT id_usuario, email_usuario, pwd_senha FROM tb_usuario WHERE email_usuario = $1;`,
+    const {rows: user} = await bd.query(
+      `SELECT * FROM tb_usuario WHERE email_usuario = $1;`,
       [email]
     );
     if (!user[0]) throw new AppError('Não existe uma conta com este email!', 404);
@@ -123,7 +121,7 @@ exports.login = async (req, res) => {
       .update(resetToken)
       .digest('hex');
   
-    const passwordResetExpires = Date.now() + 20 * 60 * 1000; // 20min
+    const passwordResetExpires = Date.now() + 30 * 60 * 1000; // 30min
   
     await bd.query(
       'INSERT INTO senhatokenreset (id_token, nme_token, expira_token) VALUES ($1,$2,$3);',
@@ -131,15 +129,19 @@ exports.login = async (req, res) => {
     );
   
     // Mandar email.
-    const resetURL = `${req.protocol}//${req.get(
+    const resetURL = `${req.protocol}://${req.get(
       'host'
     )}/resetPassword/${resetToken}`;
   
-    const message = `Perdeu sua senha? Aqui está a solução: ${resetURL}`;
+    const message = `Redefinição de senha \n 
+    Clique no link abaixo para redefinir sua senha ou copie e cole o link no seu navegador:\n
+     ${resetURL}\n
+     Atenção: O acesso ao link acima apresentado só será permitido, até 30 minutos após a realização do seu pedido apresentado neste e-mail.\nCaso V.Sa. perca o prazo de validade do mesmo, por favor repetir a solicitação.\n\nAtenciosamente,\nEquipe PharmaOFF 
+`;
   
     try {
       sendEmail({
-        email: user[0].pwd_usuario,
+        email: user[0].email_usuario,
         subject: 'Token de recuperação de senha (válido por 20 min).',
         message: message,
       });
@@ -155,7 +157,8 @@ exports.login = async (req, res) => {
   exports.resetPassword = async (req, res) => {
     // VER PROBLEMA DO TRY CATCH SENDEMAIL
     const { token } = req.params;
-    const { senha, passwordConfirm } = req.body;
+    const senha = req.body.pwd_usuario;
+    const passwordConfirm = req.body;
   
     const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
   
