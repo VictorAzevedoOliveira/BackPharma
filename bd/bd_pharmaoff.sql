@@ -4,9 +4,9 @@ use db_PharmaOff;
 #TABLETION
 create table tb_usuario(
 id_usuario int primary key ,
-nme_usuario varchar (10) default null,
-email_usuario varchar (50) ,
-pwd_usuario varchar (500) ,
+nme_usuario varchar (10) ,
+email_usuario varchar (50) not null,
+pwd_usuario varchar (500) not null,
 pwd_changed bigint  default null
 );
 

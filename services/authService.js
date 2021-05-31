@@ -62,8 +62,8 @@ const createSendToken = (userId, res) => {
   exports.signup = async (req, res) => {
 
     // Verificar se senha e confirmação de senha são iguais.
-    //  if (req.body.pwd_usuario !== req.body.passwordConfirm)
-    //    throw new AppError('As senhas precisam ser iguais.', 400);
+      if (req.body.pwd_usuario !== req.body.passwordConfirm)
+        throw new AppError('As senhas precisam ser iguais.', 400);
   
     // Gerar hash de senha.
     const senha = await bcrypt.hash(req.body.pwd_usuario, 12);
@@ -82,20 +82,22 @@ const createSendToken = (userId, res) => {
   };
   
 // LOGIN
-  exports.login = async (req, res) => {
-    const { email, senha } = req.body;
-    if (!email || !senha) {
-      throw new AppError('Por favor, digite seu email e sua senha.', 400);
-    } 
-    const {rows: user} = await bd.query(
-      `SELECT id_usuario, email_usuario, pwd_usuario FROM tb_usuario WHERE email_usuario = $1;`,
-      [email]
-    );
-    if (!user[0] || !(await comparePassword(senha, user[0].pwd_usuario)))
-      throw new AppError('Email ou senha incorreta.', 401);
-    return createSendToken(user[0].id_usuario, res);
-  };
-  
+exports.login = async (req, res) => {
+  const email = req.body.email_usuario;
+  const password = req.body.pwd_usuario;
+   if (!email || !password) {
+     throw new AppError('Por favor, digite seu email e sua senha.', 400);
+   }
+  const { rows: user} = await bd.query(
+    `SELECT id_usuario, email_usuario, pwd_usuario FROM tb_usuario WHERE email_usuario = $1;`,
+    [email]
+      );
+
+  if (!user[0] || !(await comparePassword(password, user[0].pwd_usuario)))
+    throw new AppError('Email ou senha incorreta.', 401);
+  return createSendToken(user[0].id_usuario, res);
+};
+
 
   // ESQUECEU A SENHA
   exports.forgotPassword = async req => {
@@ -121,7 +123,7 @@ const createSendToken = (userId, res) => {
       .update(resetToken)
       .digest('hex');
   
-    const passwordResetExpires = Date.now() + 15 * 60 * 1000;
+    const passwordResetExpires = Date.now() + 20 * 60 * 1000; // 20min
   
     await bd.query(
       'INSERT INTO senhatokenreset (id_token, nme_token, expira_token) VALUES ($1,$2,$3);',
@@ -138,7 +140,7 @@ const createSendToken = (userId, res) => {
     try {
       sendEmail({
         email: user[0].pwd_usuario,
-        subject: 'Token de recuperação de senha (válido por 15 min).',
+        subject: 'Token de recuperação de senha (válido por 20 min).',
         message: message,
       });
     } catch (err) {
