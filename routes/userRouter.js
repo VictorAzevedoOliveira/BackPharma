@@ -16,13 +16,13 @@ router
   .patch(userController.updateUser)
   .delete(userController.deleteUser);
 
-router.route('/signup').post(authController.signup);
+router.route('/cadastro').post(authController.cadastro);
 
 router.route('/login').post(authController.login);
 
-router.route('/forgotPassword').post(authController.forgotPassword);
+router.route('/esqueceuSenha').post(authController.esqueceuSenha);
 
-router.route('/resetPassword/:token').patch(authController.resetPassword);
+router.route('/resetSenha/:token').patch(authController.resetSenha);
 
 
 module.exports = router; 

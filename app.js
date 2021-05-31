@@ -3,7 +3,6 @@ const app = express();
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const path = require('path');
-const userRouter = require('./routes/userRouter');
 const AppError = require('./utils/AppError');
 const globalErrorHandler = require('./controllers/errorController');
 
@@ -17,7 +16,7 @@ app.use(express.static(__dirname));
 
 // ROTAS
 const rotaProdutos = require('./routes/produtos');
-
+const userRouter = require('./routes/userRouter');
 const rotaDesejos = require('./routes/listadesejos');
 const rotaCupons = require('./routes/cupons');
 const bodyParser = require('body-parser');

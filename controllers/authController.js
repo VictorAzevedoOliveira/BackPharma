@@ -2,12 +2,12 @@ const authService = require('../services/authService');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/AppError');
 
-exports.signup = catchAsync(async (req, res, next) => {
-    const token = await authService.signup(req, res);
+exports.cadastro = catchAsync(async (req, res, next) => {
+    const token = await authService.cadastro(req, res);
   
     res.status(201).json({
       status: 'success',
-      data: 'Usuário criado!',
+      data: 'Usuário criado com sucesso!',
       token,
     });
   });
@@ -17,26 +17,26 @@ exports.signup = catchAsync(async (req, res, next) => {
   
     res.status(200).json({
       status: 'success',
-      data: 'User loged in',
+      data: 'Usuário Logado com sucesso!',
       token,
     });
   });
   
-  exports.forgotPassword = catchAsync(async (req, res, next) => {
-    await authService.forgotPassword(req);
+  exports.esqueceuSenha = catchAsync(async (req, res, next) => {
+    await authService.esqueceuSenha(req);
   
     res.status(200).json({
       status: 'success',
-      data: 'Token sent to email!',
+      data: 'O Token foi enviado ao seu email com sucesso!',
     });
   });
   
-  exports.resetPassword = catchAsync(async (req, res, next) => {
-    const token = await authService.resetPassword(req, res);
+  exports.resetSenha = catchAsync(async (req, res, next) => {
+    const token = await authService.resetSenha(req, res);
   
     res.status(200).json({
       status: 'success',
-      data: 'User changed password!',
+      data: 'Mudança de senha do usuário feita com sucesso!',
       token,
     });
   });

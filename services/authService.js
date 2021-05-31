@@ -59,7 +59,7 @@ const createSendToken = (userId, res) => {
   };
   
 
-  exports.signup = async (req, res) => {
+  exports.cadastro = async (req, res) => {
 
     // Verificar se senha e confirmação de senha são iguais.
       // if (req.body.pwd_usuario !== req.body.passwordConfirm)
@@ -100,7 +100,7 @@ exports.login = async (req, res) => {
 
 
   // ESQUECEU A SENHA
-  exports.forgotPassword = async req => {
+  exports.esqueceuSenha = async req => {
     const  email  = req.body.email_usuario;
   
     if (!email) throw new AppError('Por favor, digite seu email.', 400);
@@ -154,7 +154,7 @@ exports.login = async (req, res) => {
   };
 
 // RESETAR SENHA
-  exports.resetPassword = async (req, res) => {
+  exports.resetSenha = async (req, res) => {
     // VER PROBLEMA DO TRY CATCH SENDEMAIL
     const { token } = req.params;
     const senha = req.body.pwd_usuario;
