@@ -84,11 +84,11 @@ const createSendToken = (userId, res) => {
 // LOGIN
   exports.login = async (req, res) => {
     const { email, senha } = req.body;
-    // if (!email || !senha) {
-    //   throw new AppError('Por favor, digite seu email e sua senha.', 400);
-    // } 
+    if (!email || !senha) {
+      throw new AppError('Por favor, digite seu email e sua senha.', 400);
+    } 
     const {rows: user} = await bd.query(
-      `SELECT id_usuario, email_usuario, pwd_usuario FROM tb_usuario WHERE pwd_usuario = $1;`,
+      `SELECT id_usuario, email_usuario, pwd_usuario FROM tb_usuario WHERE email_usuario = $1;`,
       [email]
     );
     if (!user[0] || !(await comparePassword(senha, user[0].pwd_usuario)))
