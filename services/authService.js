@@ -62,15 +62,15 @@ const createSendToken = (userId, res) => {
   exports.signup = async (req, res) => {
 
     // Verificar se senha e confirmação de senha são iguais.
-    if (req.body.pwd_usuario !== req.body.passwordConfirm)
-      throw new AppError('As senhas precisam ser iguais.', 400);
+    //  if (req.body.pwd_usuario !== req.body.passwordConfirm)
+    //    throw new AppError('As senhas precisam ser iguais.', 400);
   
     // Gerar hash de senha.
     const senha = await bcrypt.hash(req.body.pwd_usuario, 12);
   
     // Inserir usuário.
     const { rows: createdUser } = await bd.query(
-        `INSERT INTO tb_usuario (nme_usuario, email_usuario,pwd_usuario) VALUES ($1, $2, $3);`,
+        `INSERT INTO tb_usuario (nme_usuario, email_usuario,pwd_usuario) VALUES ($1, $2, $3) RETURNING id_usuario;`,
       [
         req.body.nme_usuario,
         req.body.email_usuario,
