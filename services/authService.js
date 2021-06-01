@@ -131,7 +131,7 @@ exports.login = async (req, res) => {
     // Mandar email.
     const resetURL = `${req.protocol}://${req.get(
       'host'
-    )}/resetPassword/${resetToken}`;
+    )}/resetSenha/${resetToken}`;
   
     const message = `Redefinição de senha \n 
     Clique no link abaixo para redefinir sua senha ou copie e cole o link no seu navegador:\n
@@ -165,7 +165,7 @@ exports.login = async (req, res) => {
     const {
       rows: user,
     } = await bd.query(
-      'SELECT id_token, expira_token FROM senhatokenreset WHERE nme_token = $1;',
+      'SELECT * FROM senhatokenreset WHERE nme_token = $1;',
       [hashedToken]
     );
   
