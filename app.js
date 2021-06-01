@@ -42,7 +42,7 @@ app.use((req,res,next)=>{
 
 
 app.use('/usuarios',userRouter);
-app.use('/cupons',rotaCupons);
+
 
 
 app.all('*', (req, res, next) =>
