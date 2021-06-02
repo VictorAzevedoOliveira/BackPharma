@@ -15,11 +15,8 @@ app.use(express.static(__dirname));
 //  });
 
 // ROTAS
-const rotaProdutos = require('./routes/produtos');
 const userRouter = require('./routes/userRouter');
-const rotaDesejos = require('./routes/listadesejos');
-const rotaCupons = require('./routes/cupons');
-const bodyParser = require('body-parser');
+ const bodyParser = require('body-parser');
 
 app.use(morgan('dev'));
 app.use('/uploads', express.static('uploads'));
@@ -41,10 +38,8 @@ app.use((req,res,next)=>{
 });
 
 
-app.use('/produtos',rotaProdutos);
-app.use('/listadesejos',rotaDesejos);
 app.use('/usuarios',userRouter);
-app.use('/cupons',rotaCupons);
+
 
 
 app.all('*', (req, res, next) =>
