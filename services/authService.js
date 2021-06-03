@@ -30,36 +30,6 @@ const createSendToken = (userId, res) => {
   await bcrypt.compare(requestPass, userPass);
 
 
-  // exports.protect = async req => {
-  //   let token;
-  //   if (
-  //     req.headers.authorization &&
-  //     req.headers.authorization.startsWith('Bearer')
-  //   ) {
-  //     token = req.headers.authorization.split(' ')[1];
-  //   } else if (req.cookies.jwt) {
-  //     token = req.cookies.jwt;
-  //   }
-  //   if (!token) {
-  //     throw new AppError(
-  //       'Login não aceito! Por favor, entre na sua conta para ter acesso.',
-  //       401
-  //     );
-  //   }
-  //   // Verification token
-  //   const decoded = await promisify(jwt.verify)(token, process.env.JWT_TOKEN);
-  //   const {
-  //     rows: user,
-  //   } = await bd.query(`SELECT * FROM tb_usuario WHERE id_usuario = $1`, [
-  //     decoded.userId,
-  //   ]);
-  //   if (!user[0]) {
-  //     throw new AppError('Não existe nenhum usuário com este token.', 401);
-  //   }
-  //   return user[0];
-  // };
-  
-
   exports.cadastro = async (req, res) => {
     // Gerar hash de senha.
     const senha = await bcrypt.hash(req.body.pwd_usuario, 12);
