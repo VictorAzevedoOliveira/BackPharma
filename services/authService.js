@@ -156,7 +156,7 @@ exports.login = async (req, res) => {
     // VER PROBLEMA DO TRY CATCH SENDEMAIL
     const { token } = req.params;
     const senha = req.body.pwd_usuario;
-    const passwordConfirm = req.body;
+    // const passwordConfirm = req.body;
   
     const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
   
@@ -172,11 +172,11 @@ exports.login = async (req, res) => {
     if (!user[0] || Date.now() > user[0].expira_token)
       throw new AppError('Token inválido ou expirado!', 400);
   
-     if (!senha || !passwordConfirm)
-       throw new AppError('Preencha todos os campos.', 400);
+    //  if (!senha || !passwordConfirm)
+    //    throw new AppError('Preencha todos os campos.', 400);
   
-     if (senha !== passwordConfirm)
-       throw new AppError('As senhas precisam ser iguais.', 400);
+    //  if (senha !== passwordConfirm)
+    //    throw new AppError('As senhas precisam ser iguais.', 400);
   
     // Gerar hash de senha.
     const hashedPassword = await bcrypt.hash(senha, 12);
