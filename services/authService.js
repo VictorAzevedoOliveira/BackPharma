@@ -134,15 +134,15 @@ exports.login = async (req, res) => {
     )}/resetSenha/${resetToken}`;
   
     const message = `Redefinição de senha \n 
-    Clique no link abaixo para redefinir sua senha ou copie e cole o link no seu navegador:\n
-     ${resetURL}\n
-     Atenção: O acesso ao link acima apresentado só será permitido, até 30 minutos após a realização do seu pedido apresentado neste e-mail.\nCaso V.Sa. perca o prazo de validade do mesmo, por favor repetir a solicitação.\n\nAtenciosamente,\nEquipe PharmaOFF 
+    A redifinição de senha foi solicitada e foi gerada um Token válido por 30 minutos para a redefinição de senha.\nToken:
+     ${resetToken}\nPor favor verifique no aplicativo PharmaOFF a aba para redefinir a sua senha a partir do Token gerado!\n
+     Atenção: O token para solicitar a senha é válido por 30 minutos após a realização do seu pedido apresentado neste e-mail.\nCaso V.Sa. perca o prazo de validade do mesmo, por favor repetir a solicitação.\n\nAtenciosamente,\nEquipe PharmaOFF 
 `;
   
     try {
       sendEmail({
         email: user[0].email_usuario,
-        subject: 'Token de recuperação de senha (válido por 20 min).',
+        subject: 'Recuperação de senha - PharmaOff (válido por 20 min).',
         message: message,
       });
     } catch (err) {
@@ -169,6 +169,7 @@ exports.login = async (req, res) => {
       [hashedToken]
     );
   
+    // ver no front como incremetar isso, aparentemente 
     // Indetificar se token existe e se ainda é válido.
     if (!user[0] || Date.now() > user[0].expira_token)
       throw new AppError('Token inválido ou expirado!', 400);
