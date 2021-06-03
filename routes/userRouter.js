@@ -22,7 +22,7 @@ router.route('/login').post(authController.login);
 
 router.route('/esqueceuSenha').post(authController.esqueceuSenha);
 
-router.route('/resetSenha').patch(authController.resetSenha);
+router.route('/resetSenha/:token').patch(authController.resetSenha);
 
 
 module.exports = router; 

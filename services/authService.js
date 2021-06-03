@@ -131,18 +131,16 @@ exports.login = async (req, res) => {
     // Mandar email.
     const resetURL = `${req.protocol}://${req.get(
       'host'
-    )}/resetSenha/${resetToken}`;
+    )}/usuarios/resetSenha/${resetToken}`;
   
-    const message = `Redefinição de senha \n 
-    A redifinição de senha foi solicitada e foi gerada um Token válido por 30 minutos para a redefinição de senha.\nToken:
-     ${resetToken}\nPor favor verifique no aplicativo PharmaOFF a aba para redefinir a sua senha a partir do Token gerado!\n
-     Atenção: O token para solicitar a senha é válido por 30 minutos após a realização do seu pedido apresentado neste e-mail.\nCaso V.Sa. perca o prazo de validade do mesmo, por favor repetir a solicitação.\n\nAtenciosamente,\nEquipe PharmaOFF 
+    const message = `Redefinição de senha \nA redifinição de senha foi solicitada e foi gerada um Token válido por 30 minutos para a redefinição de senha.\n\nToken:
+     ${resetURL}\nPor favor verifique no aplicativo PharmaOFF a aba para redefinir a sua senha a partir do Token gerado!\n\nAtenção: O token para solicitar a senha é válido por 30 minutos após a realização do seu pedido apresentado neste e-mail.\nCaso V.Sa. perca o prazo de validade do mesmo, por favor repetir a solicitação.\n\nAtenciosamente,\nEquipe PharmaOFF 
 `;
   
     try {
       sendEmail({
         email: user[0].email_usuario,
-        subject: 'Recuperação de senha - PharmaOff (válido por 20 min).',
+        subject: 'Recuperação de senha - PharmaOff (válido por 30 min).',
         message: message,
       });
     } catch (err) {
@@ -174,11 +172,11 @@ exports.login = async (req, res) => {
     if (!user[0] || Date.now() > user[0].expira_token)
       throw new AppError('Token inválido ou expirado!', 400);
   
-    if (!senha || !passwordConfirm)
-      throw new AppError('Preencha todos os campos.', 400);
+     if (!senha || !passwordConfirm)
+       throw new AppError('Preencha todos os campos.', 400);
   
-    if (senha !== passwordConfirm)
-      throw new AppError('As senhas precisam ser iguais.', 400);
+     if (senha !== passwordConfirm)
+       throw new AppError('As senhas precisam ser iguais.', 400);
   
     // Gerar hash de senha.
     const hashedPassword = await bcrypt.hash(senha, 12);
