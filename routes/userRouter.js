@@ -1,9 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const mysql = require('../mysql').pool;
-const bcrypt = require('bcryptjs');
+
 const jwt = require('jsonwebtoken');
-//const UsersControlles = require('../controllers/UsersControllers');
+
 const userController = require('../controllers/userController');
 const authController = require('../controllers/authController');
 

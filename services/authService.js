@@ -8,6 +8,7 @@ const sendEmail = require('../utils/email');
 const bd = require('../bd');
 
 
+// Autentificação de tokens
 const signToken = userId =>
   jwt.sign({ userId }, process.env.JWT_TOKEN, {
     expiresIn: process.env.JWT_EXPIRES_IN,
@@ -17,7 +18,7 @@ const createSendToken = (userId, res) => {
     const token = signToken(userId); 
     const cookieOptions = {
       expires: new Date(
-        Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+        Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000 //24h
       ),
       httpOnly: true,
     };
@@ -29,42 +30,37 @@ const createSendToken = (userId, res) => {
   await bcrypt.compare(requestPass, userPass);
 
 
-  exports.protect = async req => {
-    let token;
-    if (
-      req.headers.authorization &&
-      req.headers.authorization.startsWith('Bearer')
-    ) {
-      token = req.headers.authorization.split(' ')[1];
-    } else if (req.cookies.jwt) {
-      token = req.cookies.jwt;
-    }
-    if (!token) {
-      throw new AppError(
-        'Login não aceito! Por favor, entre na sua conta para ter acesso.',
-        401
-      );
-    }
-    // Verification token
-    const decoded = await promisify(jwt.verify)(token, process.env.JWT_TOKEN);
-    const {
-      rows: user,
-    } = await bd.query(`SELECT * FROM tb_usuario WHERE id_usuario = $1`, [
-      decoded.userId,
-    ]);
-    if (!user[0]) {
-      throw new AppError('Não existe nenhum usuário com este token.', 401);
-    }
-    return user[0];
-  };
+  // exports.protect = async req => {
+  //   let token;
+  //   if (
+  //     req.headers.authorization &&
+  //     req.headers.authorization.startsWith('Bearer')
+  //   ) {
+  //     token = req.headers.authorization.split(' ')[1];
+  //   } else if (req.cookies.jwt) {
+  //     token = req.cookies.jwt;
+  //   }
+  //   if (!token) {
+  //     throw new AppError(
+  //       'Login não aceito! Por favor, entre na sua conta para ter acesso.',
+  //       401
+  //     );
+  //   }
+  //   // Verification token
+  //   const decoded = await promisify(jwt.verify)(token, process.env.JWT_TOKEN);
+  //   const {
+  //     rows: user,
+  //   } = await bd.query(`SELECT * FROM tb_usuario WHERE id_usuario = $1`, [
+  //     decoded.userId,
+  //   ]);
+  //   if (!user[0]) {
+  //     throw new AppError('Não existe nenhum usuário com este token.', 401);
+  //   }
+  //   return user[0];
+  // };
   
 
   exports.cadastro = async (req, res) => {
-
-    // Verificar se senha e confirmação de senha são iguais.
-      // if (req.body.pwd_usuario !== req.body.passwordConfirm)
-      //   throw new AppError('As senhas precisam ser iguais.', 400);
-  
     // Gerar hash de senha.
     const senha = await bcrypt.hash(req.body.pwd_usuario, 12);
   
@@ -153,10 +149,9 @@ exports.login = async (req, res) => {
 
 // RESETAR SENHA
   exports.resetSenha = async (req, res) => {
-    // VER PROBLEMA DO TRY CATCH SENDEMAIL
     const { token } = req.params;
     const senha = req.body.pwd_usuario;
-    // const passwordConfirm = req.body;
+  
   
     const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
   
@@ -166,21 +161,15 @@ exports.login = async (req, res) => {
       'SELECT * FROM senhatokenreset WHERE nme_token = $1;',
       [hashedToken]
     );
-  
-    // ver no front como incremetar isso, aparentemente 
+
     // Indetificar se token existe e se ainda é válido.
     if (!user[0] || Date.now() > user[0].expira_token)
       throw new AppError('Token inválido ou expirado!', 400);
   
-    //  if (!senha || !passwordConfirm)
-    //    throw new AppError('Preencha todos os campos.', 400);
-  
-    //  if (senha !== passwordConfirm)
-    //    throw new AppError('As senhas precisam ser iguais.', 400);
-  
     // Gerar hash de senha.
     const hashedPassword = await bcrypt.hash(senha, 12);
   
+    // Altera a senha com um update
     await bd.query(
       'UPDATE tb_usuario SET pwd_usuario = $1, pwd_changed = $2 WHERE id_usuario = $3;',
       [hashedPassword, Date.now(), user[0].id_token]
