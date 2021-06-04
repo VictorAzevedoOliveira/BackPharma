@@ -10,6 +10,7 @@ pwd_usuario varchar (500) not null,
 pwd_changed bigint  default null
 );
 
+
 Create table tb_estabelecimento (
 id_estabelecimento SERIAL primary key not null,  
 nme_estabelecimento varchar (100),
@@ -19,16 +20,35 @@ img_estabelecimento varchar(500) ,
 sts_estabelecimento boolean    
 );
 
-CREATE TABLE ta_produto (
-id_produto SERIAL primary key not null,
-nme_produto varchar(40) ,
-preco_produto double precision ,
-preco_desconto_produto int,
-desc_produto varchar(400) ,
-img_produto varchar(500) ,
-cod_estabelecimento int REFERENCES tb_estabelecimento (id_estabelecimento)
 
+create table EstabelecimentoParceiro(
+	id_EstabelecimentoParceiro serial primary key,
+	nme_franquia varchar(100) not null,
+	cod_estabelecimento integer not null references tb_estabelecimento(id_estabelecimento)
+)
+
+create table ta_produto(
+	id_produto serial primary key,
+	nme_produto varchar(100) not null,
+	preco_produto decimal(10,2) not null,
+	sts_produto integer default 1,
+	desc_produto varchar(400) ,
+	img_produto varchar(500) ,
+	cod_categoria integer not null references categoria(id_categoria),
+	cod_estabelecimentoparceiro int REFERENCES estabelecimentoParceiro (id_estabelecimentoParceiro)
 );
+
+
+
+
+
+
+create table categoria(
+	id_categoria serial primary key,
+	categoria_produto varchar(100) not null,
+	sts_categoria integer default 1
+		
+)
 
 
 
@@ -52,8 +72,10 @@ cod_usuario int REFERENCES tb_usuario (id_usuario)
 create table ta_listaDesejos_produtos(
 id_listaDesejos_produtos SERIAL primary key not null,
 cod_listadesejos int  REFERENCES tb_listaDesejos (id_listadesejos),
-cod_produto int  REFERENCES ta_produto (id_produto)    
+cod_produto int  REFERENCES ta_produto (id_produto),
+qtd_produto integer not null
 );
+
 
 CREATE TABLE senhatokenreset (
   id_token SERIAL  REFERENCES tb_usuario (id_usuario),
