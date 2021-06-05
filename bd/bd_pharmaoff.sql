@@ -10,6 +10,21 @@ pwd_usuario varchar (500) not null,
 pwd_changed bigint  default null
 );
 
+create table tb_formulario(
+	id_formulario serial primary key references tb_usuario(id_usuario),
+	nme_formulario varchar (50),
+	cel_formulario text,
+	email_formulario varchar (100),
+	msg_formulario varchar (500)
+)
+
+
+
+create table categoria(
+	id_categoria serial primary key,
+	categoria_produto varchar(100) not null,
+		
+);
 
 Create table tb_estabelecimento (
 id_estabelecimento SERIAL primary key not null,  
@@ -17,15 +32,16 @@ nme_estabelecimento varchar (100),
 rating_estabelecimento double precision ,
 endereço_estabelecimento varchar(50) ,
 img_estabelecimento varchar(500) ,
-sts_estabelecimento boolean    
+sts_estabelecimento boolean
 );
 
 
-create table EstabelecimentoParceiro(
-	id_EstabelecimentoParceiro serial primary key,
-	nme_franquia varchar(100) not null,
-	cod_estabelecimento integer not null references tb_estabelecimento(id_estabelecimento)
-)
+create table tb_estabelecimentoParceiro(
+	id_estabelecimentoParceiro serial primary key REFERENCES tb_estabelecimento(id_estabelecimento),
+	isparceiro boolean
+);
+
+
 
 create table ta_produto(
 	id_produto serial primary key,
@@ -33,22 +49,10 @@ create table ta_produto(
 	preco_produto decimal(10,2) not null,
 	desc_produto varchar(400) ,
 	img_produto varchar(500) ,
-	cod_categoria integer not null references categoria(id_categoria),
-	cod_estabelecimentoparceiro int REFERENCES estabelecimentoParceiro (id_estabelecimentoParceiro),
 	isfavourite bool,
-	ispopular bool
-);
-
-
-
-
-
-
-create table categoria(
-	id_categoria serial primary key,
-	categoria_produto varchar(100) not null,
-	sts_categoria integer default 1
-		
+	ispopular bool,
+	cod_categoria integer not null references categoria(id_categoria),
+	cod_estabelecimento integer not null references tb_estabelecimento(id_estabelecimento)
 );
 
 

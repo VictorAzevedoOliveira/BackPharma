@@ -43,8 +43,13 @@ const createSendToken = (userId, res) => {
         senha,
       ]
     );
-  
+    // Cria uma Lista de desejos para o usuário
+    await bd.query(
+      'INSERT INTO tb_listadesejos (cod_usuario) VALUES ($1);',
+      [createdUser[0].cod_usuario]
+    );
     return createSendToken(createdUser[0].id_usuario, res);
+
   };
   
 // LOGIN
