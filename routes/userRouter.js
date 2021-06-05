@@ -6,8 +6,9 @@ const jwt = require('jsonwebtoken');
 const userController = require('../controllers/userController');
 const authController = require('../controllers/authController');
 
-router.route('/usuarios').get(userController.getAllUsers);
 
+// Essas rotas são para ver/editar/deletar os usuários, não precisam estar no app mas são necessárias para o controle.
+router.route('/usuarios').get(userController.getAllUsers);
 router.route('/').get(userController.getAllUsers).post(userController.addUser);
 router
   .route('/:id')
@@ -15,7 +16,9 @@ router
   .patch(userController.updateUser)
   .delete(userController.deleteUser);
 
-router.route('/cadastro').post(authController.cadastro);
+
+  //Essas rotas são para as funções que o app precisa
+router.route('/cadastro').post(authController.cadastro); // o cadastro é igual ao addUser
 
 router.route('/login').post(authController.login);
 
