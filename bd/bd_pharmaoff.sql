@@ -31,11 +31,12 @@ create table ta_produto(
 	id_produto serial primary key,
 	nme_produto varchar(100) not null,
 	preco_produto decimal(10,2) not null,
-	sts_produto integer default 1,
 	desc_produto varchar(400) ,
 	img_produto varchar(500) ,
 	cod_categoria integer not null references categoria(id_categoria),
-	cod_estabelecimentoparceiro int REFERENCES estabelecimentoParceiro (id_estabelecimentoParceiro)
+	cod_estabelecimentoparceiro int REFERENCES estabelecimentoParceiro (id_estabelecimentoParceiro),
+	isfavourite bool,
+	ispopular bool
 );
 
 
@@ -48,7 +49,7 @@ create table categoria(
 	categoria_produto varchar(100) not null,
 	sts_categoria integer default 1
 		
-)
+);
 
 
 
