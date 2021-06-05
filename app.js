@@ -16,7 +16,8 @@ app.use(express.static(__dirname));
 
 // ROTAS
 const userRouter = require('./routes/userRouter');
- const bodyParser = require('body-parser');
+const userProduct = require('./routes/productRouter');
+const bodyParser = require('body-parser');
 
 app.use(morgan('dev'));
 app.use('/uploads', express.static('uploads'));
@@ -39,7 +40,7 @@ app.use((req,res,next)=>{
 
 
 app.use('/usuarios',userRouter);
-
+app.use('/produtos',userProduct);
 
 
 app.all('*', (req, res, next) =>
