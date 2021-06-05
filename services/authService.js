@@ -7,7 +7,7 @@ const server = require('../server');
 const sendEmail = require('../utils/email');
 const bd = require('../bd');
 
-
+//-------------------------------------------------------------------------------------------------------
 // Autentificação de tokens
 const signToken = userId =>
   jwt.sign({ userId }, process.env.JWT_TOKEN, {
@@ -29,13 +29,13 @@ const createSendToken = (userId, res) => {
   const comparePassword = async (requestPass, userPass) =>
   await bcrypt.compare(requestPass, userPass);
 
-
+//-------------------------------------------------------------------------------------------------------
   exports.cadastro = async (req, res) => {
     // Gerar hash de senha.
     const senha = await bcrypt.hash(req.body.pwd_usuario, 12);
   
     // Inserir usuário.
-    const { rows: createdUser } = await bd.query(
+    const { rows: usuario } = await bd.query(
         `INSERT INTO tb_usuario (nme_usuario, email_usuario,pwd_usuario) VALUES ($1, $2, $3) RETURNING id_usuario;`,
       [
         req.body.nme_usuario,
@@ -46,12 +46,12 @@ const createSendToken = (userId, res) => {
     // Cria uma Lista de desejos para o usuário
     await bd.query(
       'INSERT INTO tb_listadesejos (cod_usuario) VALUES ($1);',
-      [createdUser[0].cod_usuario]
+      [usuario[0].id_usuario]
     );
-    return createSendToken(createdUser[0].id_usuario, res);
+    return createSendToken(usuario[0].id_usuario, res);
 
   };
-  
+  //-------------------------------------------------------------------------------------------------------
 // LOGIN
 exports.login = async (req, res) => {
   const email = req.body.email_usuario;
@@ -69,7 +69,7 @@ exports.login = async (req, res) => {
   return createSendToken(user[0].id_usuario, res);
 };
 
-
+//-------------------------------------------------------------------------------------------------------
   // ESQUECEU A SENHA
   exports.esqueceuSenha = async req => {
     const  email  = req.body.email_usuario;
@@ -121,7 +121,7 @@ exports.login = async (req, res) => {
       );
     }
   };
-
+//-------------------------------------------------------------------------------------------------------
 // RESETAR SENHA
   exports.resetSenha = async (req, res) => {
     const { token } = req.params;
