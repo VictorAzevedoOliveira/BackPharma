@@ -39,13 +39,13 @@ app.use((req,res,next)=>{
     next();
 });
 
-const csp = require('express-csp-header');
-app.use(csp({
-    policies: {
-        'default-src': [csp.NONE],
-        'img-src': [csp.SELF],
-    }
-}));
+// const csp = require('express-csp-header');
+// app.use(csp({
+//     policies: {
+//         'default-src': [csp.NONE],
+//         'img-src': [csp.SELF],
+//     }
+// }));
 
 app.use('/usuarios',userRouter);
 app.use('/produtos',productRouter);
