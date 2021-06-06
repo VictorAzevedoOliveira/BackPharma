@@ -34,29 +34,24 @@ const createSendToken = (userId, res) => {
 exports.cadastro = async (req, res) => {
     // Gerar hash de senha.
     const senha = await bcrypt.hash(req.body.pwd_usuario, 12);
-    console.log(senha);
-    console.log(req.body.nme_usuario);
-    console.log(req.body.email_usuario);
     // Inserir usuário.
     const { rows: usuarios } = await bd.query(
-        `INSERT INTO tb_usuario (nme_usuario, email_usuario,pwd_usuario) VALUES ($1, $2, $3) ;`,
+        `INSERT INTO tb_usuario (nme_usuario, email_usuario,pwd_usuario) VALUES ($1, $2, $3) returning id_usuario;`,
       [
         req.body.nme_usuario,
         req.body.email_usuario,
         senha,
       ]
     );
-    //.then(res=>console.log('sucesso')).catch(err=>console.error('erro',err.stack));
-
-      console.log('teste console'+usuarios);
+      console.log('teste : criou o usuario'+usuarios);
 
     // Cria uma Lista de desejos para o usuário assim que ele é criado
-    // bd.query(
-    //   'INSERT INTO tb_listadesejos (cod_usuario) VALUES ($1) ;',
-    //   [
-    //     usuarios[0].id_usuario]
-    // ).then(res=>console.log('sucesso')).catch(err=>console.error('erro',err.stack));
-
+    
+    await bd.query(
+      'INSERT INTO tb_listadesejos (cod_usuario) VALUES ($1) ;',
+      [usuarios[0].id_usuario]
+    );
+    console.log('teste: criou a listaDesejos '+ usuarios);
     return createSendToken([0].id_usuario, res);
   };
   //-------------------------------------------------------------------------------------------------------
@@ -138,9 +133,7 @@ exports.login = async (req, res) => {
   
     const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
   
-    const {
-      rows: user,
-    } = await bd.query(
+    const {rows: user} = await bd.query(
       'SELECT * FROM senhatokenreset WHERE nme_token = $1;',
       [hashedToken]
     );
