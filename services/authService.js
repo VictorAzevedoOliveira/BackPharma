@@ -49,6 +49,7 @@ exports.cadastro = async (req, res) => {
     //.then(res=>console.log('sucesso')).catch(err=>console.error('erro',err.stack));
 
       console.log('teste console'+usuarios);
+
     // Cria uma Lista de desejos para o usuário assim que ele é criado
     // bd.query(
     //   'INSERT INTO tb_listadesejos (cod_usuario) VALUES ($1) ;',

@@ -8,7 +8,7 @@ const { token } = require('morgan');
 
 exports.getAllProductsOferta = async () => {
   const { rows: prod } = await bd.query(
-    `select id_produto,nme_produto,preco_produto,categoria_produto,isparceiro from ta_produto 
+    `select id_produto,nme_produto,preco_produto,categoria_produto,isparceiro, onsale from ta_produto 
   inner join categoria on id_categoria=cod_categoria
   inner join tb_estabelecimento on id_estabelecimento=cod_estabelecimento 
   inner join tb_estabelecimentoParceiro on id_estabelecimentoParceiro=id_estabelecimento 
