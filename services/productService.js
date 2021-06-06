@@ -5,14 +5,14 @@ const AppError = require('../utils/AppError');
 const bd = require('../bd');
 const { token } = require('morgan');
 
-
+//-------------------------------------------------------------------------------------------------------
 exports.getAllProducts = async () => {
   const { rows: prod } = await bd.query('SELECT * FROM ta_produto');
   return prod;
 }
     
   
-
+//-------------------------------------------------------------------------------------------------------
   exports.getProduct = async req => {
     const { rows: prod } = await bd.query(
       `SELECT * FROM ta_produto
@@ -26,7 +26,7 @@ exports.getAllProducts = async () => {
     return prod[0];
   };
 
-
+//-------------------------------------------------------------------------------------------------------
 
   exports.addProduct = async req => { 
     // Inserir produto
@@ -42,7 +42,7 @@ exports.getAllProducts = async () => {
     ); 
   };
 
-
+//-------------------------------------------------------------------------------------------------------
   exports.deleteProduct = async req => {
     const {
       rowCount,
@@ -53,7 +53,7 @@ exports.getAllProducts = async () => {
     if (!rowCount) throw new AppError('Produto não existe.', 404);
   };
 
-
+//-------------------------------------------------------------------------------------------------------
   exports.updateProduct = async req => {
     const fields = [req.params.id];
     const str = [];

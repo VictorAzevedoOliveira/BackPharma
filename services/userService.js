@@ -6,14 +6,14 @@ const AppError = require('../utils/AppError');
 const bd = require('../bd');
 const { token } = require('morgan');
 
-
+//-------------------------------------------------------------------------------------------------------
 exports.getAllUsers = async () => {
   const { rows: users } = await bd.query('SELECT * FROM tb_usuario');
   return users;
 }
     
   
-
+//-------------------------------------------------------------------------------------------------------
   exports.getUser = async req => {
     const { rows: user } = await bd.query(
       `SELECT * FROM tb_usuario 
@@ -27,13 +27,9 @@ exports.getAllUsers = async () => {
     return user[0];
   };
 
-
+//-------------------------------------------------------------------------------------------------------
 
   exports.addUser = async req => {
-    // Verificar se senha e confirmação de senha são iguais.
-    //  if (req.body.pwd_usuario !== req.body.confirmSenha)
-    //    throw new AppError('As senhas precisam ser iguais.', 400);
-  
     // Gerar hash de senha.
     const senha = await bcrypt.hash(req.body.pwd_usuario, 12);
   
@@ -46,13 +42,9 @@ exports.getAllUsers = async () => {
         req.body.nme_usuario, 
         req.body.email_usuario,
         senha,
-      ]
-      
-    );
-   
-  };
+      ] );};
 
-
+//-------------------------------------------------------------------------------------------------------
   exports.deleteUser = async req => {
     const {
       rowCount,
@@ -63,7 +55,7 @@ exports.getAllUsers = async () => {
     if (!rowCount) throw new AppError('Usuário não existe.', 404);
   };
 
-
+//-------------------------------------------------------------------------------------------------------
   exports.updateUser = async req => {
     const fields = [req.params.id];
     const str = [];

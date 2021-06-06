@@ -5,7 +5,7 @@ const AppError = require('../utils/AppError');
 const bd = require('../bd');
 const { token } = require('morgan');
 
-
+//-------------------------------------------------------------------------------------------------------
 exports.getAllProductsOferta = async () => {
   const { rows: prod } = await bd.query(
     `select id_produto,nme_produto,preco_produto,categoria_produto,isparceiro, onsale from ta_produto 
@@ -18,7 +18,7 @@ exports.getAllProductsOferta = async () => {
   return prod;
 };
     
-
+//-------------------------------------------------------------------------------------------------------
 exports.getAllProducts = async () => {
   const { rows: prod } = await bd.query(
     `select id_produto,nme_produto,preco_produto,categoria_produto,isparceiro from ta_produto 
@@ -30,6 +30,7 @@ exports.getAllProducts = async () => {
   return prod;
 };
 
+//-------------------------------------------------------------------------------------------------------
   exports.getProductOferta = async req => {
     const { rows: prod } = await bd.query(
       `select id_produto,nme_produto,preco_produto,categoria_produto,isparceiro from ta_produto 
@@ -45,7 +46,7 @@ exports.getAllProducts = async () => {
     });
     return prod[0];
   };
-
+//-------------------------------------------------------------------------------------------------------
 
 
   exports.addProductOferta = async req => { 
@@ -61,7 +62,7 @@ exports.getAllProducts = async () => {
         req.body.cod_estabelecimento,
       ]); 
   };
-
+//-------------------------------------------------------------------------------------------------------
 
   exports.deleteProductOferta = async req => {
     const {
@@ -73,7 +74,7 @@ exports.getAllProducts = async () => {
   
     if (!rowCount) throw new AppError('Produto não existe.', 404);
   };
-
+//-------------------------------------------------------------------------------------------------------
 
   exports.updateProductOferta = async req => {
     const fields = [req.params.id];

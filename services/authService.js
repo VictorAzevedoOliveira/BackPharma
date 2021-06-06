@@ -57,6 +57,7 @@ exports.cadastro = async (req, res) => {
   //-------------------------------------------------------------------------------------------------------
 // LOGIN
 exports.login = async (req, res) => {
+  var logado = false;
   const email = req.body.email_usuario;
   const password = req.body.pwd_usuario;
    if (!email || !password) {
@@ -66,10 +67,14 @@ exports.login = async (req, res) => {
     `SELECT id_usuario, email_usuario, pwd_usuario FROM tb_usuario WHERE email_usuario = $1;`,
     [email]
       );
-
+  
+ 
   if (!user[0] || !(await comparePassword(password, user[0].pwd_usuario)))
     throw new AppError('Email ou senha incorreta.', 401);
-  return createSendToken(user[0].id_usuario, res);
+    logado = true;
+    console.log(logado);
+  return createSendToken(user[0].id_usuario, res) ;
+ 
 };
 
 //-------------------------------------------------------------------------------------------------------
