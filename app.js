@@ -16,7 +16,7 @@ app.use(express.static(__dirname));
 
 // ROTAS
 const userRouter = require('./routes/userRouter');
-const userProduct = require('./routes/productRouter');
+const productRouter= require('./routes/productRouter');
 const bodyParser = require('body-parser');
 
 app.use(morgan('dev'));
@@ -40,8 +40,7 @@ app.use((req,res,next)=>{
 
 
 app.use('/usuarios',userRouter);
-app.use('/produtos',userProduct);
-
+app.use('/produtos',productRouter);
 
 app.all('*', (req, res, next) =>
   next(new AppError(`A rota ${req.originalUrl} não existe!`))

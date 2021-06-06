@@ -11,7 +11,7 @@ const authController = require('../controllers/authController');
 router.route('/usuarios').get(userController.getAllUsers);
 router.route('/').get(userController.getAllUsers).post(userController.addUser);
 router
-  .route('/:id')
+  .route('/usuario/:id')
   .get(userController.getUser)
   .patch(userController.updateUser)
   .delete(userController.deleteUser);

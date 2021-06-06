@@ -11,6 +11,15 @@ exports.getAllProductsOferta = catchAsync(async (req, res, next) => {
     });
   });
 
+  exports.getAllProducts= catchAsync(async (req, res, next) => {
+    const prods = await ofertaService.getAllProducts();
+  
+    res.status(200).json({
+      status: 'success',
+      data:[prods]
+    });
+  });
+
 exports.getProductOferta = catchAsync(async (req, res, next) => {
     const prod = await ofertaService.getProductOferta(req);
   

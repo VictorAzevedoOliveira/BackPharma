@@ -12,11 +12,23 @@ exports.getAllProductsOferta = async () => {
   inner join categoria on id_categoria=cod_categoria
   inner join tb_estabelecimento on id_estabelecimento=cod_estabelecimento 
   inner join tb_estabelecimentoParceiro on id_estabelecimentoParceiro=id_estabelecimento 
+  where isparceiro = true and onsale = true; `,
+  );
+  console.log(prod);
+  return prod;
+};
+    
+
+exports.getAllProducts = async () => {
+  const { rows: prod } = await bd.query(
+    `select id_produto,nme_produto,preco_produto,categoria_produto,isparceiro from ta_produto 
+  inner join categoria on id_categoria=cod_categoria
+  inner join tb_estabelecimento on id_estabelecimento=cod_estabelecimento 
+  inner join tb_estabelecimentoParceiro on id_estabelecimentoParceiro=id_estabelecimento 
   where isparceiro = true; `,
   );
   return prod;
-}
-    
+};
 
   exports.getProductOferta = async req => {
     const { rows: prod } = await bd.query(
@@ -47,9 +59,7 @@ exports.getAllProductsOferta = async () => {
         req.body.desc_produto,
         req.body.cod_categoria,
         req.body.cod_estabelecimento,
-      ]
-    )
-    ; 
+      ]); 
   };
 
 

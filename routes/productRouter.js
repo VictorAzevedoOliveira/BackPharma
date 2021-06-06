@@ -6,18 +6,24 @@ const ofertaController = require('../controllers/ofertaController');
 
 router.route('/produtos').get(productController.getAllProducts);
 
-router.route('/').get(productController.getAllProducts).post(productController.addProduct);
+router.route('/')
+.get(productController.getAllProducts)
+.post(productController.addProduct)
+.get(productController.getProduct);
+
+
 router
-  .route('/:id')
-  .get(productController.getAllProducts)
+  .route('/produto/:id')
+  .get(productController.getProduct)
   .patch(productController.updateProduct)
   .delete(productController.deleteProduct);
 
-router.route('ofertas/todosProdutos').post(ofertaController.getAllProductsOferta);
-router.route('ofertas/produto').post(ofertaController.getProductOferta);
-router.route('ofertas/Addproduto').post(ofertaController.addProductOferta);
-router.route('ofertas/delProduto').post(ofertaController.deleteProductOferta);
-router.route('ofertas/updateProduto').post(ofertaController.updateProductOferta);
+router.route('/parceiros').get(ofertaController.getAllProducts);
+router.route('/ofertas').get(ofertaController.getAllProductsOferta);
+router.route('/oferta/:id').get(ofertaController.getProductOferta);
+router.route('/Addoferta').post(ofertaController.addProductOferta);
+router.route('/deloferta').post(ofertaController.deleteProductOferta);
+router.route('/updateoferta').post(ofertaController.updateProductOferta);
 
 
 module.exports = router; 

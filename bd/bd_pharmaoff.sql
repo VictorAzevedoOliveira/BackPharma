@@ -52,7 +52,8 @@ create table ta_produto(
 	isfavourite bool,
 	ispopular bool,
 	cod_categoria integer not null references categoria(id_categoria),
-	cod_estabelecimento integer not null references tb_estabelecimento(id_estabelecimento)
+	cod_estabelecimento integer not null references tb_estabelecimento(id_estabelecimento),
+	onSale bool
 );
 
 
