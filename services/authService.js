@@ -45,9 +45,10 @@ exports.cadastro = async (req, res) => {
         req.body.email_usuario,
         senha,
       ]
-    ).then(res=>console.log('sucesso')).catch(err=>console.error('erro',err.stack));
+    );
+    //.then(res=>console.log('sucesso')).catch(err=>console.error('erro',err.stack));
 
-      console.log('teste'+usuarios);
+      console.log('teste console'+usuarios);
     // Cria uma Lista de desejos para o usuário assim que ele é criado
     // bd.query(
     //   'INSERT INTO tb_listadesejos (cod_usuario) VALUES ($1) ;',
@@ -55,7 +56,7 @@ exports.cadastro = async (req, res) => {
     //     usuarios[0].id_usuario]
     // ).then(res=>console.log('sucesso')).catch(err=>console.error('erro',err.stack));
 
-    return createSendToken(usuarios[0].id_usuario, res);
+    return createSendToken([0].id_usuario, res);
   };
   //-------------------------------------------------------------------------------------------------------
 // LOGIN
