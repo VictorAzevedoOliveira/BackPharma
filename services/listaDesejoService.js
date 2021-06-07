@@ -59,24 +59,24 @@ console.log(retorno);
 
 //   // }
 // verificar se o usuario atual que esta logado
-if (authService.login(logado == true)){
-    var islogado = true;}
-console.log(islogado);
-// Insere um produto na lista de desejos
-    if (islogado==true){
-        console.log('teste 1: '+ logado);
-     await bd.query(
-        `INSERT INTO  tb_listadesejos_produtos (cod_listadesejos, cod_produto, qtd_produto) 
-        VALUES ($1, $2, $3) ;`,
-        [req.body.cod_listadesejos,
-        list[0].cod_produto,
-        req.body.qtd_produto,]
-          );
-        if (!prod[0]) throw new AppError('Não existe este usuário!', 404);
-        console.log('teste 2: '+logado);
-    }else{
-        new AppError('Usuário não Logado!', 404);}
-    console.log('teste 3: '+logado);
+// if (authService.login(logado == true)){
+//     var islogado = true;}
+// console.log(islogado);
+// // Insere um produto na lista de desejos
+//     if (islogado==true){
+//         console.log('teste 1: '+ logado);
+//      await bd.query(
+//         `INSERT INTO  tb_listadesejos_produtos (cod_listadesejos, cod_produto, qtd_produto) 
+//         VALUES ($1, $2, $3) ;`,
+//         [req.body.cod_listadesejos,
+//         list[0].cod_produto,
+//         req.body.qtd_produto,]
+//           );
+//         if (!prod[0]) throw new AppError('Não existe este usuário!', 404);
+//         console.log('teste 2: '+logado);
+//     }else{
+//         new AppError('Usuário não Logado!', 404);}
+//     console.log('teste 3: '+logado);
 
 
   };
