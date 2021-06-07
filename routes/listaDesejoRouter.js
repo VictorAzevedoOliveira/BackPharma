@@ -5,7 +5,7 @@ const listaDesejoController = require('../controllers/listaDesejoController');
 
 router.route('/listas').get(listaDesejoController.getAllListas);
 
-router.route('/lista/:id').get(listaDesejoController.getListaDesejo);
+router.route('/lista/:cod_usuario').get(listaDesejoController.getListaDesejo);
 
 router.route('/addprodlista').post(listaDesejoController.addProductLista);
 
