@@ -45,11 +45,11 @@ console.log(islogado);
 // Insere um produto na lista de desejos
     if (islogado==true){
         console.log('teste 1: '+ logado);
-    const { rows: prod} = await bd.query(
+     await bd.query(
         `INSERT INTO  tb_listadesejos_produtos (cod_listadesejos, cod_produto, qtd_produto) 
         VALUES ($1, $2, $3) ;`,
         [req.body.cod_listadesejos,
-        req.body.cod_produto,
+        list[0].cod_produto,
         req.body.qtd_produto,]
           );
         if (!prod[0]) throw new AppError('Não existe este usuário!', 404);
