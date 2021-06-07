@@ -37,12 +37,6 @@ exports.addProductLista = async req => {
  usuario = req.body.cod_usuario; 
  qtd = req.body.qtd_produto; 
 
- const usertoken = req.headers.authorization;
- console.log(usertoken);
- const token = usertoken.split(' ');
- console.log(token);
- const decoded = jwt.verify(token[1], 'secret-key');
- console.log(decoded);
 
  
  const retorno = await bd.query(
