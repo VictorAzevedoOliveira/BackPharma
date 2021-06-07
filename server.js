@@ -1,6 +1,6 @@
 const http = require('http');
 const app = require('./app');
-const port = process.env.PORT || 8080; //se a variavel não tiver preenchida vai usar a porta 5000
+const port = process.env.PORT || 5000; //se a variavel não tiver preenchida vai usar a porta 5000
 const server = http.createServer(app);
 const dotenv = require('dotenv');
 
