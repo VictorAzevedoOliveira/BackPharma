@@ -36,8 +36,6 @@ exports.addProductLista = async req => {
  produto = req.body.cod_produto;
  usuario = req.body.cod_usuario; 
  qtd = req.body.qtd_produto; 
-
-
  
  const retorno = await bd.query(
   `INSERT INTO ta_listadesejos_produtos (cod_produto,cod_usuario , qtd_produto ) VALUES ($1, $2, $3);`,
@@ -51,33 +49,6 @@ exports.addProductLista = async req => {
   )
 }); 
 console.log(retorno);
-//   'SELECT * FROM ta_listadesejos_produtos where cod_usuario')
-//   .then(function(res) { return res.rows }).catch(err=>console.log(err.stack));
-//  //verificar se tem produto repetido
-//   console.log(rows);
-//  // if (lista.find(elemento => lista[0])){
-
-//   // }
-// verificar se o usuario atual que esta logado
-// if (authService.login(logado == true)){
-//     var islogado = true;}
-// console.log(islogado);
-// // Insere um produto na lista de desejos
-//     if (islogado==true){
-//         console.log('teste 1: '+ logado);
-//      await bd.query(
-//         `INSERT INTO  tb_listadesejos_produtos (cod_listadesejos, cod_produto, qtd_produto) 
-//         VALUES ($1, $2, $3) ;`,
-//         [req.body.cod_listadesejos,
-//         list[0].cod_produto,
-//         req.body.qtd_produto,]
-//           );
-//         if (!prod[0]) throw new AppError('Não existe este usuário!', 404);
-//         console.log('teste 2: '+logado);
-//     }else{
-//         new AppError('Usuário não Logado!', 404);}
-//     console.log('teste 3: '+logado);
-
 
   };
 
@@ -98,3 +69,18 @@ console.log('teste111');
   };
 
 //-------------------------------------------------------------------------------------------------------
+exports.calcularSoma = async req => {
+  //detectar o usuario logado atual para adicionar os produtos
+    const { rows: prod } = await bd.query(
+     ` SELECT SUM(preco_produto * qtd_produto) as Total FROM ta_produto 
+     INNER JOIN ta_listaDesejos_produtos on cod_produto=id_produto 
+     where cod_usuario = $1  `,
+      [req.params.cod_usuario]
+    );
+    console.log(prod[0]);
+    if (!prod[0]) throw new AppError('Produto não existe.', 404);
+    Object.entries(prod[0]).forEach(([key, value]) => {
+      if (value === null) delete prod[0][key];
+    });
+    return prod[0];
+  };

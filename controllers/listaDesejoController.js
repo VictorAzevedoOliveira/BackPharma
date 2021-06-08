@@ -35,8 +35,8 @@ exports.deleteProductLista = catchAsync(async (req, res, next) => {
     });
   });
   
-  exports.calcularProductLista = catchAsync(async (req, res, next) => {
-    await listaDesejoService.calcularProductLista(req); 
+  exports.calcularSoma = catchAsync(async (req, res, next) => {
+    await listaDesejoService.calcularSoma(req); 
     res.status(201).json({
       status: 'success',
       data: 'Produto somado!',
