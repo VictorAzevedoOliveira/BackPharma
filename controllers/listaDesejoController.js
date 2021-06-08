@@ -28,7 +28,7 @@ exports.addProductLista = catchAsync(async (req, res, next) => {
   });
  
 exports.deleteProductLista = catchAsync(async (req, res, next) => {
-    await listaDesejoService.addProductOferta(req); 
+    await listaDesejoService.deleteProductLista(req); 
     res.status(201).json({
       status: 'success',
       data: 'Produto deletado!',

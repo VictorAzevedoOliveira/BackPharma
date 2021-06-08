@@ -74,8 +74,8 @@ cod_estabelecimento int references tb_estabelecimento (id_estabelecimento)
 -- Lista de desejos dos produtos, que estão linkados com as usuarios da outra lista.
 create table ta_listaDesejos_produtos(
 id_listaDesejos_produtos SERIAL primary key not null,
-cod_usuario int REFERENCES tb_usuario (id_usuario),
-cod_produto int  REFERENCES ta_produto (id_produto),
+cod_usuario int  not null REFERENCES tb_usuario (id_usuario),
+cod_produto int   not null REFERENCES ta_produto (id_produto),
 qtd_produto integer ,
 unique (cod_usuario,cod_produto)
 );

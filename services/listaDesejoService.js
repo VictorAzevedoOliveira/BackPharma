@@ -83,27 +83,18 @@ console.log(retorno);
 
 //-------------------------------------------------------------------------------------------------------
   exports.deleteProductLista = async req => {
-    const {
-      rowCount,
-    } = await server.query(`DELETE FROM ta_listaDesejos_produtos WHERE cod_produto  = $1`, [
-      req.body.cod_produto,
+    console.log('teste');
+    const {rowCount} = await bd.query(
+      `DELETE FROM ta_listaDesejos_produtos WHERE cod_produto  = $1 and cod_usuario = $2`, 
+      [req.body.cod_produto,
+      req.body.cod_usuario
     ]);
+console.log('teste111');
+    if (rowCount != 1) {
+        console.log('produto nao existe')
+        throw new AppError('Produto não existe.', 404);
+      }
   
-    if (!rowCount) throw new AppError('Produto não existe.', 404);
   };
 
 //-------------------------------------------------------------------------------------------------------
-exports.calcularProductLista = async req => {
-  //detectar o usuario logado atual para adicionar os produtos
-    const { rows: prod } = await bd.query(
-     ` SELECT SUM(preco_produto) as Total FROM ta_produto 
-     INNER JOIN ta_listaDesejos_produtos on cod_produto=id_produto 
-     where cod_listadesejos = $1 `,
-      [req.params.cod_listadesejos]
-    );
-    if (!prod[0]) throw new AppError('Produto não existe.', 404);
-    Object.entries(prod[0]).forEach(([key, value]) => {
-      if (value === null) delete prod[0][key];
-    });
-    return prod[0];
-  };
