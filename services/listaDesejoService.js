@@ -75,9 +75,11 @@ exports.calcularSoma = async req => {
      ` SELECT SUM(preco_produto * qtd_produto) as Total FROM ta_produto 
      INNER JOIN ta_listaDesejos_produtos on cod_produto=id_produto 
      where cod_usuario = $1  `,
-      [req.params.cod_usuario]
+      [req.body.cod_usuario]
     );
-    console.log(prod[0]);
+    console.log('teste');
+    console.log(prod);
+    console.log(req.body.cod_usuario);
     if (!prod[0]) throw new AppError('Produto não existe.', 404);
     Object.entries(prod[0]).forEach(([key, value]) => {
       if (value === null) delete prod[0][key];
