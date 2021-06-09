@@ -71,7 +71,7 @@ exports.getProductCategoria = async req => {
   [req.params.cod_categoria]
   );
   console.log(prod);
-  return prod[0];
+  return prod;
 };
 
 //-------------------------------------------------------------------------------------------------------
@@ -81,7 +81,7 @@ exports.getAllProductRemedios = async req => {
     `select * from ta_produto WHERE cod_categoria = 1;`,
   );
   console.log(prod);
-  return prod[0];
+  return prod;
 };
 
 //-------------------------------------------------------------------------------------------------------
@@ -91,7 +91,7 @@ exports.getAllProductHigiene = async req => {
     `select * from ta_produto WHERE cod_categoria = 2;`,
   );
   console.log(prod);
-  return prod[0];
+  return prod;
 };
 
 //-------------------------------------------------------------------------------------------------------
@@ -101,5 +101,5 @@ exports.getAllProductCuidado = async req => {
     `select * from ta_produto WHERE cod_categoria = 3;`,
   );
   console.log(prod);
-  return prod[0];
+  return prod;
 };
