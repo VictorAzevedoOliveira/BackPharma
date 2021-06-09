@@ -63,3 +63,43 @@ exports.getAllProducts = async () => {
       'nme_produto ',
     );
 };
+//-------------------------------------------------------------------------------------------------------
+// Busca de produtos na categoria de remedios
+exports.getProductCategoria = async req => {
+  const { rows: prod } = await bd.query(
+    `select * from ta_produto WHERE cod_categoria = $1;`,
+  [req.params.cod_categoria]
+  );
+  console.log(prod);
+  return prod[0];
+};
+
+//-------------------------------------------------------------------------------------------------------
+// Busca de produtos na categoria de remedios
+exports.getAllProductRemedios = async req => {
+  const { rows: prod } = await bd.query(
+    `select * from ta_produto WHERE cod_categoria = 1;`,
+  );
+  console.log(prod);
+  return prod[0];
+};
+
+//-------------------------------------------------------------------------------------------------------
+// Busca de produtos na categoria de Higiene
+exports.getAllProductHigiene = async req => {
+  const { rows: prod } = await bd.query(
+    `select * from ta_produto WHERE cod_categoria = 2;`,
+  );
+  console.log(prod);
+  return prod[0];
+};
+
+//-------------------------------------------------------------------------------------------------------
+// Busca de produtos na categoria de Cuidado e Peles
+exports.getAllProductCuidado = async req => {
+  const { rows: prod } = await bd.query(
+    `select * from ta_produto WHERE cod_categoria = 3;`,
+  );
+  console.log(prod);
+  return prod[0];
+};

@@ -55,3 +55,35 @@ exports.updateProduct = catchAsync(async (req, res, next) => {
       data: 'Oferta criado!',
     });
   });
+
+  exports.getAllProductRemedios = catchAsync(async (req, res, next) => {
+    const prod = await productServices.getAllProductRemedios();
+  
+    res.status(200).json({
+      status: 'success',
+      data:[prod],
+    });
+  });
+
+  exports.getAllProductHigiene = catchAsync(async (req, res, next) => {
+    const prod = await productServices.getAllProductHigiene();
+  
+    res.status(200).json({
+      status: 'success',
+      data:[prod],
+    });
+  });
+
+  exports.getAllProductCuidado = catchAsync(async (req, res, next) => {
+    const prod = await productServices.getAllProductCuidado(req);
+  
+    res.status(200).json({
+      status: 'success',
+      data:[prod],
+    });
+  });
+
+
+
+
+  

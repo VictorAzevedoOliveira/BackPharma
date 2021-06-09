@@ -18,6 +18,11 @@ router
   .patch(productController.updateProduct)
   .delete(productController.deleteProduct);
 
+
+router.route('/remedio').get(productController.getAllProductRemedios);
+router.route('/higiene').get(productController.getAllProductHigiene);
+router.route('/cuidado').get(productController.getAllProductCuidado);
+
 router.route('/parceiros').get(ofertaController.getAllProducts);
 router.route('/ofertas').get(ofertaController.getAllProductsOferta);
 router.route('/oferta/:id_produto').get(ofertaController.getProductOferta);
