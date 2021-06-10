@@ -3,7 +3,7 @@ const listaDesejoService = require('../services/listaDesejoService');
 const catchAsync = require('../utils/catchAsync');
 
 exports.getAllListas = catchAsync(async (req, res, next) => {
-    const prods = await listaDesejoService.getAllListas(); 
+    const prods = await listaDesejoService.getAllListas(req); 
     res.status(200).json({
       status: 'success',
       data:[prods]
@@ -11,7 +11,7 @@ exports.getAllListas = catchAsync(async (req, res, next) => {
   });
 
   exports.getListaDesejo= catchAsync(async (req, res, next) => {
-    const prods = await listaDesejoService.getListaDesejo();
+    const prods = await listaDesejoService.getListaDesejo(req);
  
     res.status(200).json({
       status: 'success',
