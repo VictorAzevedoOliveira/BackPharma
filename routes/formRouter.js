@@ -5,7 +5,7 @@ const formController = require('../controllers/formController');
 
 router.route('/formularios').get(formController.getAllForms);
 
-router.route('/addform').get(formController.addForm);
+router.route('/addform').post(formController.addForm);
 
 
 

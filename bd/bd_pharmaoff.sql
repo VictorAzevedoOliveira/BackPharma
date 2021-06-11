@@ -47,6 +47,7 @@ create table ta_produto(
 	id_produto serial primary key,
 	nme_produto varchar(100) not null,
 	preco_produto decimal(10,2) not null,
+	preco_novoproduto decimal(10,2),
 	desc_produto varchar(400) ,
 	img_produto varchar(500) ,
 	isfavourite bool,

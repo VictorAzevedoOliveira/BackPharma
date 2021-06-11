@@ -103,3 +103,4 @@ exports.getAllProductCuidado = async req => {
   console.log(prod);
   return prod;
 };
+//-------------------------------------------------------------------------------------------------------
