@@ -47,12 +47,12 @@ exports.cadastro = async (req, res) => {
 
     // Cria uma Lista de desejos para o usuário assim que ele é criado
     
-    await bd.query(
-      'INSERT INTO tb_listadesejos (cod_usuario) VALUES ($1) ;',
-      [usuarios[0].id_usuario]
-    );
-    console.log('teste: criou a listaDesejos '+ usuarios);
-    return createSendToken([0].id_usuario, res);
+    // await bd.query(
+    //   'INSERT INTO tb_listadesejos_produtos (cod_usuario) VALUES ($1) ;',
+    //   [usuarios[0].id_usuario]
+    // );
+    // console.log('teste: criou a listaDesejos '+ usuarios);
+    return createSendToken(usuarios[0].id_usuario, res);
   };
   //-------------------------------------------------------------------------------------------------------
 // LOGIN

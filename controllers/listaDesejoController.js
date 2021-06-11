@@ -28,15 +28,15 @@ exports.addProductLista = catchAsync(async (req, res, next) => {
   });
  
 exports.deleteProductLista = catchAsync(async (req, res, next) => {
-    await listaDesejoService.addProductOferta(req); 
+    await listaDesejoService.deleteProductLista(req); 
     res.status(201).json({
       status: 'success',
       data: 'Produto deletado!',
     });
   });
   
-  exports.calcularProductLista = catchAsync(async (req, res, next) => {
-    await listaDesejoService.calcularProductLista(req); 
+  exports.calcularSoma = catchAsync(async (req, res, next) => {
+    await listaDesejoService.calcularSoma(req); 
     res.status(201).json({
       status: 'success',
       data: 'Produto somado!',

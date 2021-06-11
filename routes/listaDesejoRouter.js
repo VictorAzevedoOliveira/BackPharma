@@ -11,8 +11,7 @@ router.route('/addprodlista').post(listaDesejoController.addProductLista);
 
 router.route('/removeprodlista').delete(listaDesejoController.deleteProductLista);
 
-router.route('/calcularlista').post(listaDesejoController.calcularProductLista);
-
+router.route('/calcularsoma').get(listaDesejoController.calcularSoma);
 
 
 module.exports = router; 
