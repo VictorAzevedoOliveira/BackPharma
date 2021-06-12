@@ -29,7 +29,7 @@ exports.getAllForms = async () => {
     )
         // Mandar email.
     
-    const message = `Prezado, ${req.body.nme_formulario},\n\nO formulário que você nos enviou foi recebido e logo será analisado por nossa Equipe.\n
+    const message = `Prezado, ${req.body.nme_formulario},\n\nO relato que você nos enviou foi recebido e logo será analisado por nossa Equipe.\n
 Agradeçemos o FeedBack e vamos trabalhar duro para solucionar a sua requisição!\n
 Atenciosamente,\n\n\nAtenciosamente,\nEquipe PharmaOFF 
 `;
