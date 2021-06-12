@@ -49,4 +49,11 @@ exports.updateUser = catchAsync(async (req, res, next) => {
       data: 'Usuário editado!',
     });
   });
+
+exports.protect = catchAsync(async (req, res, next) => {
+    const user = await authService.protect(req);
+  
+    req.user = user;
+    next();
+  });
   

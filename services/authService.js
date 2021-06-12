@@ -1,11 +1,11 @@
+const bd = require('../bd');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { promisify } = require('util');
 const AppError = require('../utils/AppError');
-const server = require('../server');
 const sendEmail = require('../utils/email');
-const bd = require('../bd');
+
 
 //-------------------------------------------------------------------------------------------------------
 // Autentificação de tokens
@@ -57,7 +57,6 @@ exports.cadastro = async (req, res) => {
   //-------------------------------------------------------------------------------------------------------
 // LOGIN
 exports.login = async (req, res) => {
-  var logado = false;
   const email = req.body.email_usuario;
   const password = req.body.pwd_usuario;
    if (!email || !password) {
@@ -71,8 +70,7 @@ exports.login = async (req, res) => {
  
   if (!user[0] || !(await comparePassword(password, user[0].pwd_usuario)))
     throw new AppError('Email ou senha incorreta.', 401);
-    logado = true;
-    console.log(logado);
+
   return createSendToken(user[0].id_usuario, res) ;
  
 };
@@ -113,7 +111,7 @@ exports.login = async (req, res) => {
     )}/usuarios/resetSenha/${resetToken}`;
   
     const message = `Redefinição de senha \nA redifinição de senha foi solicitada e foi gerada um Token válido por 30 minutos para a redefinição de senha.\n\nToken:
-     ${resetURL}\nPor favor verifique no aplicativo PharmaOFF a aba para redefinir a sua senha a partir do Token gerado!\n\nAtenção: O token para solicitar a senha é válido por 30 minutos após a realização do seu pedido apresentado neste e-mail.\nCaso V.Sa. perca o prazo de validade do mesmo, por favor repetir a solicitação.\n\nAtenciosamente,\nEquipe PharmaOFF 
+     ${resetToken}\n\nPor favor verifique no aplicativo PharmaOFF a aba para redefinir a sua senha a partir do Token gerado!\n\nAtenção:\nO token para solicitar a senha é válido por 30 minutos após a realização do seu pedido apresentado neste e-mail.\nCaso V.Sa. perca o prazo de validade do mesmo, por favor repetir a solicitação.\n\nAtenciosamente,\nEquipe PharmaOFF 
 `;
   
     try {
@@ -162,4 +160,38 @@ exports.login = async (req, res) => {
   
     return createSendToken(user[0].id_token, res);
   };
+  //-------------------------------------------------------------------------------------------------------
   
+  exports.protect = async req => {
+    let token;
+  
+    if (
+      req.headers.authorization &&
+      req.headers.authorization.startsWith('Bearer')
+    ) {
+      token = req.headers.authorization.split(' ')[1];
+    } else if (req.cookies.jwt) {
+      token = req.cookies.jwt;
+    }
+  
+    if (!token) {
+      throw new AppError(
+        'Você não está logado! Por favor, entre na sua conta para ter acesso.',
+        401
+      );
+    }
+    // Verification token
+    const decoded = await promisify(jwt.verify)(token, process.env.JWT_TOKEN);
+  
+    const {
+      rows: user,
+    } = await bd.query(`SELECT * FROM tb_usuario WHERE id_usuario = $1`, [
+      decoded.userId,
+    ]);
+  
+    if (!user[0]) {
+      throw new AppError('Não existe nenhum usuário com este token.', 401);
+    }
+  
+    return user[0];
+  };

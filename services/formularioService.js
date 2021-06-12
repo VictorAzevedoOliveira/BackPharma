@@ -18,7 +18,7 @@ exports.getAllForms = async () => {
   exports.addForm = async req => { 
     // Inserir produto
     const { rows:createdForm } = await bd.query(
-        `INSERT INTO tb_formulario (nme_formulario , cel_formulario ,email_formulario,msg_formulario) VALUES ($1, $2, $3, $4) RETURNING id_formulario;`,
+        `INSERT INTO tb_formulario (nme_formulario , cel_formulario ,email_formulario,msg_formulario) VALUES ($1, $2, $3, $4) RETURNING email_formulario;`,
 
         [
         req.body.nme_formulario,
@@ -29,9 +29,7 @@ exports.getAllForms = async () => {
     )
         // Mandar email.
     
-  
-    const message = `Prezado,\n
-    O formulário que você nos enviou foi recebido e logo será analisado por nossa Equipe\n
+    const message = `Prezado, ${req.body.nme_formulario},\n\nO formulário que você nos enviou foi recebido e logo será analisado por nossa Equipe.\n
 Agradeçemos o FeedBack e vamos trabalhar duro para solucionar a sua requisição!\n
 Atenciosamente,\n\n\nAtenciosamente,\nEquipe PharmaOFF 
 `;
