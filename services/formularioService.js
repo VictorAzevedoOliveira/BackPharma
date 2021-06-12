@@ -29,23 +29,3 @@ exports.getAllForms = async () => {
   };
 
 //-------------------------------------------------------------------------------------------------------
-  exports.deleteProduct = async req => {
-    const {
-      rowCount,
-    } = await server.query(`DELETE FROM ta_produto WHERE id_produto = $1`, [
-      req.params.id,
-    ]);
-  
-    if (!rowCount) throw new AppError('Produto não existe.', 404);
-  };
-
-//-------------------------------------------------------------------------------------------------------
-  exports.updateProduct = async req => {
-    const fields = [req.params.id];
-    const str = [];
-  
-    const filteredUser = filterObj(
-      req.body,
-      'nme_produto ',
-    );
-};
