@@ -4,6 +4,7 @@ const server = require('../server');
 const AppError = require('../utils/AppError');
 const bd = require('../bd');
 const { token } = require('morgan');
+const sendEmail = require('../utils/email');
 
 //-------------------------------------------------------------------------------------------------------
 exports.getAllForms = async () => {
@@ -25,7 +26,23 @@ exports.getAllForms = async () => {
         req.body.email_formulario,
         req.body.msg_formulario,
       ]
-    ); 
+    )
+        // Mandar email.
+    
+  
+    const message = `Prezado,\n
+    O formulário que você nos enviou foi recebido e logo será analisado por nossa Equipe\n
+Agradeçemos o FeedBack e vamos trabalhar duro para solucionar a sua requisição!\n
+Atenciosamente,\n\n\nAtenciosamente,\nEquipe PharmaOFF 
+`;
+  
+    sendEmail({
+        email: createdForm[0].email_formulario,
+        subject: 'Suporte - PharmaOff',
+        message: message,
+      });
+      console.log('foi')
+      
   };
 
 //-------------------------------------------------------------------------------------------------------
