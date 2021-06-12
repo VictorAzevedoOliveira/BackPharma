@@ -22,6 +22,7 @@ router
 router.route('/remedio').get(productController.getAllProductRemedios);
 router.route('/higiene').get(productController.getAllProductHigiene);
 router.route('/cuidado').get(productController.getAllProductCuidado);
+router.route('/populares').get(productController.getAllProductsPopular);
 
 router.route('/parceiros').get(ofertaController.getAllProducts);
 router.route('/ofertas').get(ofertaController.getAllProductsOferta);

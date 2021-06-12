@@ -83,6 +83,17 @@ exports.updateProduct = catchAsync(async (req, res, next) => {
     });
   });
 
+  exports.getAllProductsPopular = catchAsync(async (req, res, next) => {
+    const prod = await productServices.getAllProductsPopular(req);
+  
+    res.status(200).json({
+      status: 'success',
+      data:[prod],
+    });
+  });
+
+
+  
 
 
 

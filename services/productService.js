@@ -104,3 +104,8 @@ exports.getAllProductCuidado = async req => {
   return prod;
 };
 //-------------------------------------------------------------------------------------------------------
+// Busca de produtos que estão populares
+exports.getAllProductsPopular = async () => {
+  const { rows: prod } = await bd.query('SELECT * FROM ta_produto WHERE ispopular = true');
+  return prod;
+}
