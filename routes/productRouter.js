@@ -27,7 +27,6 @@ router.route('/populares').get(productController.getAllProductsPopular);
 router.route('/parceiros').get(ofertaController.getAllProducts);
 router.route('/ofertas').get(ofertaController.getAllProductsOferta);
 router.route('/oferta/:id_produto').get(ofertaController.getProductOferta);
-router.route('/Addoferta').post(ofertaController.addProductOferta);
 router.route('/deloferta').post(ofertaController.deleteProductOferta);
 router.route('/updateoferta').post(ofertaController.updateProductOferta);
 

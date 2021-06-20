@@ -48,22 +48,6 @@ exports.getAllProducts = async () => {
   };
 //-------------------------------------------------------------------------------------------------------
 
-
-  exports.addProductOferta = async req => { 
-    // Inserir produto
-    const { rows:createdUser } = await bd.query(
-        `INSERT INTO ta_produto (nme_produto , preco_produto ,desc_produto,cod_categoria,cod_estabelecimento) 
-        VALUES ($1, $2, $3, $4, $5);`,
-        [
-        req.body.nme_produto, 
-        req.body.preco_produto,
-        req.body.desc_produto,
-        req.body.cod_categoria,
-        req.body.cod_estabelecimento,
-      ]); 
-  };
-//-------------------------------------------------------------------------------------------------------
-
   exports.deleteProductOferta = async req => {
     const {
       rowCount,

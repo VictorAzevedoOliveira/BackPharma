@@ -25,7 +25,7 @@ exports.addProduct = catchAsync(async (req, res, next) => {
   
     res.status(201).json({
       status: 'success',
-      data: 'Produto criado!',
+      data: 'Produto criado com sucesso!',
     });
   });
   

@@ -29,15 +29,6 @@ exports.getProductOferta = catchAsync(async (req, res, next) => {
     });
   });
  
-exports.addProductOferta = catchAsync(async (req, res, next) => {
-    await ofertaService.addProductOferta(req);
-  
-    res.status(201).json({
-      status: 'success',
-      data: 'Produto em oferta criado!',
-    });
-  });
-  
 exports.deleteProductOferta = catchAsync(async (req, res, next) => {
     await ofertaService.deleteProductOferta(req);
   

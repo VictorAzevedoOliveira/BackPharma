@@ -31,13 +31,20 @@ exports.getAllProducts = async () => {
   exports.addProduct = async req => { 
     // Inserir produto
     const { rows:createdUser } = await bd.query(
-        `INSERT INTO ta_produto (id_produto,nme_produto , preco_produto ,desc_produto) VALUES ($1, $2, $3, $4) RETURNING id_produto;`,
+        `INSERT INTO ta_produto (nme_produto , preco_produto ,preco_novoproduto,desc_produto,img_produto,isfavourite,ispopular,onsale,cod_categoria,cod_estabelecimento) 
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9 , $10);`,
 
         [
-        req.body.id_produto,
         req.body.nme_produto, 
         req.body.preco_produto,
+        req.body.preco_novoproduto,
         req.body.desc_produto,
+        req.body.img_produto,
+        req.body.isfavourite,
+        req.body.ispopular,
+        req.body.onsale,
+        req.body.cod_categoria,
+        req.body.cod_estabelecimento
       ]
     ); 
   };
