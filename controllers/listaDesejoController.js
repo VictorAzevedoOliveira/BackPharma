@@ -3,42 +3,42 @@ const listaDesejoService = require('../services/listaDesejoService');
 const catchAsync = require('../utils/catchAsync');
 
 exports.getAllListas = catchAsync(async (req, res, next) => {
-    const prods = await listaDesejoService.getAllListas(req); 
+    const listaprod = await listaDesejoService.getAllListas(req); 
     res.status(200).json({
       status: 'success',
-      data:[prods]
+      data:[listaprod]
     });
   });
 
   exports.getListaDesejo= catchAsync(async (req, res, next) => {
-    const prods = await listaDesejoService.getListaDesejo(req);
+    const listaproduser = await listaDesejoService.getListaDesejo(req);
  
     res.status(200).json({
       status: 'success',
-      data:[prods]
+      data:[listaproduser]
     });
   });
 
 exports.addProductLista = catchAsync(async (req, res, next) => {
-    const prod = await listaDesejoService.addProductLista(req);  
+    const prodadded = await listaDesejoService.addProductLista(req);  
     res.status(200).json({
       status: 'success',
-      data: prod,
+      data:'Produto adicionado!'+ [prodadded],
     });
   });
  
 exports.deleteProductLista = catchAsync(async (req, res, next) => {
-    await listaDesejoService.deleteProductLista(req); 
+  const produtodel = await listaDesejoService.deleteProductLista(req); 
     res.status(201).json({
       status: 'success',
-      data: 'Produto deletado!',
+      data: 'Produto deletado!'+ [produtodel] ,
     });
   });
   
   exports.calcularSoma = catchAsync(async (req, res, next) => {
-    await listaDesejoService.calcularSoma(req); 
+    const valortotal = await listaDesejoService.calcularSoma(req); 
     res.status(201).json({
       status: 'success',
-      data: 'Produto somado!',
+      data: 'Produto somado: ' + [valortotal] ,
     });
   });
