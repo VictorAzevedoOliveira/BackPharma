@@ -61,13 +61,17 @@ exports.getAllProducts = async () => {
 
 //-------------------------------------------------------------------------------------------------------
   exports.updateProduct = async req => {
-    const fields = [req.params.id];
-    const str = [];
-  
-    const filteredUser = filterObj(
-      req.body,
-      'nme_produto ',
+
+    const { rowCount } = await bd.query(
+      `UPDATE ta_produto SET nme_produto =$1,preco_produto=$2,desc_produto=$3, cod_categoria=$4 ,cod_estabelecimento=$5 WHERE id_produto = $6`,
+      [req.body.nme_produto,
+        req.body.preco_produto,
+        req.body.desc_produto,
+        req.body.cod_categoria,
+        req.body.cod_estabelecimento,
+        req.params.id]
     );
+    if (!rowCount) throw new AppError('Produto não existe.', 404);
 };
 //-------------------------------------------------------------------------------------------------------
 // Busca de produtos na categoria de remedios
