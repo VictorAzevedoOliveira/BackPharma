@@ -32,7 +32,7 @@ exports.addProduct = catchAsync(async (req, res, next) => {
 exports.deleteProduct = catchAsync(async (req, res, next) => {
     await productServices.deleteProduct(req);
   
-    res.status(204).json({
+    res.status(200).json({
       status: 'success',
       data: 'Produto deletado!',
     });
@@ -41,7 +41,7 @@ exports.deleteProduct = catchAsync(async (req, res, next) => {
 exports.updateProduct = catchAsync(async (req, res, next) => {
     await productServices.updateProduct(req);
   
-    res.status(200).json({
+    res.status(201).json({
       status: 'success',
       data: 'Produto editado!',
     });

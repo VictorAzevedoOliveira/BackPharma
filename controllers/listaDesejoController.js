@@ -15,7 +15,7 @@ exports.getAllListas = catchAsync(async (req, res, next) => {
  
     res.status(200).json({
       status: 'success',
-      data:[listaproduser]
+      data:'Produto deletado!'+[res]
     });
   });
 
@@ -23,7 +23,7 @@ exports.addProductLista = catchAsync(async (req, res, next) => {
     const prodadded = await listaDesejoService.addProductLista(req);  
     res.status(200).json({
       status: 'success',
-      data:'Produto adicionado!'+ [prodadded],
+      data:'Produto adicionado!',
     });
   });
  
@@ -31,7 +31,7 @@ exports.deleteProductLista = catchAsync(async (req, res, next) => {
   const produtodel = await listaDesejoService.deleteProductLista(req); 
     res.status(201).json({
       status: 'success',
-      data: 'Produto deletado!'+ [produtodel] ,
+      data: 'Produto deletado!' ,
     });
   });
   
@@ -39,6 +39,6 @@ exports.deleteProductLista = catchAsync(async (req, res, next) => {
     const valortotal = await listaDesejoService.calcularSoma(req); 
     res.status(201).json({
       status: 'success',
-      data: 'Produto somado: ' + [valortotal] ,
+      data: [valortotal]  
     });
   });

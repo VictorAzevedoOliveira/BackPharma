@@ -51,12 +51,11 @@ exports.getAllProducts = async () => {
 
 //-------------------------------------------------------------------------------------------------------
   exports.deleteProduct = async req => {
-    const {
-      rowCount,
-    } = await server.query(`DELETE FROM ta_produto WHERE id_produto = $1`, [
+    const {rowCount} = await bd.query(
+      `DELETE FROM ta_produto WHERE id_produto = $1`, [
       req.params.id,
     ]);
-  
+  console.log("oi")
     if (!rowCount) throw new AppError('Produto não existe.', 404);
   };
 
