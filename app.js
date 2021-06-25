@@ -48,6 +48,7 @@ app.use((req,res,next)=>{
 //     }
 // }));
 
+//rotas futuras para carrinho
 app.use('/usuarios',userRouter);
 app.use('/produtos',productRouter);
 app.use('/listaDesejos',listaDesejoRouter);
