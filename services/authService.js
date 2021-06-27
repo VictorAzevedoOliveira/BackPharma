@@ -111,7 +111,7 @@ exports.login = async (req, res) => {
     )}/usuarios/resetSenha/${resetToken}`;
   
     const message = `Redefinição de senha \nA redifinição de senha foi solicitada e foi gerada um Token válido por 30 minutos para a redefinição de senha.\n\nToken:
-     ${resetToken}\n\nPor favor verifique no aplicativo PharmaOFF a aba para redefinir a sua senha a partir do Token gerado!\n\nAtenção:\nO token para solicitar a senha é válido por 30 minutos após a realização do seu pedido apresentado neste e-mail.\nCaso V.Sa. perca o prazo de validade do mesmo, por favor repetir a solicitação.\n\nAtenciosamente,\nEquipe PharmaOFF 
+     ${resetToken}\n\nAtenção:\nO token para solicitar a senha é válido por 30 minutos após a realização do seu pedido apresentado neste e-mail.\nCaso V.Sa. perca o prazo de validade do mesmo, por favor repetir a solicitação.\n\nAtenciosamente,\nEquipe PharmaOFF 
 `;
   
     try {
